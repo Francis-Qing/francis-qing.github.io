@@ -5,348 +5,286 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>卿龙 - 个人简历</title>
     <style>
-        /* --- General Styles --- */
+        /* --- 全局与字体设置 --- */
+        html {
+            scroll-behavior: smooth; /* 实现平滑滚动 */
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", "Arial", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-            line-height: 1.7;
-            background-color: #f8f9fa;
-            color: #343a40;
+            line-height: 1.8;
+            background-color: #fdfdfd;
+            color: #444;
             margin: 0;
             padding: 0;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 30px auto;
-            background-color: #ffffff;
-            padding: 40px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            border-radius: 8px;
+        /* --- 核心分栏布局 --- */
+        .page-container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
         }
 
-        /* --- Typography --- */
-        h1 {
-            font-size: 2.8em;
-            color: #212529;
-            margin: 0 0 10px;
+        /* --- 左侧固定边栏 --- */
+        .sidebar {
+            width: 40%;
+            max-width: 450px; /* 最大宽度限制 */
+            background-color: #f8f9fa;
+            padding: 80px 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* 让姓名和导航上下分布 */
+            position: sticky; /* 核心：实现滚动时固定 */
+            top: 0;
+            height: 100vh;
+            box-sizing: border-box; /* 让 padding 不会撑大宽度 */
+        }
+        
+        .sidebar-header h1 {
+            font-size: 5em; /* 超大字号突出姓名 */
             font-weight: 600;
+            color: #111;
+            margin: 0;
+            line-height: 1.1;
         }
 
-        h2 {
-            font-size: 1.6em;
-            color: #0056b3;
-            border-bottom: 2px solid #0056b3;
-            padding-bottom: 10px;
-            margin-top: 40px;
-            margin-bottom: 25px;
-            font-weight: 600;
+        .sidebar-header p {
+            font-size: 1.2em;
+            color: #555;
+            margin-top: 15px;
         }
 
-        h3 {
-            font-size: 1.3em;
-            color: #343a40;
-            margin-bottom: 8px;
+        .main-nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .main-nav li {
+            margin-bottom: 15px;
+        }
+
+        .main-nav a {
+            text-decoration: none;
+            color: #666;
+            font-size: 1.2em;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav a:hover {
+            color: #007bff; /* 鼠标悬停时变色 */
+        }
+
+        /* --- 右侧滚动内容区 --- */
+        .content {
+            flex-grow: 1; /* 占据剩余所有空间 */
+            padding: 80px 7%; /* 使用百分比，更灵活 */
+            overflow-y: auto; /* 保证内容区可滚动 */
+        }
+
+        .content section {
+            margin-bottom: 70px;
+        }
+
+        .content h2 {
+            font-size: 2.5em;
+            color: #222;
+            border-bottom: 3px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
             font-weight: 600;
         }
         
-        h4 {
-            font-size: 1.1em;
-            color: #495057;
-            margin-top: 20px;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        strong {
-            color: #212529;
-            font-weight: 600;
-        }
-
-        /* --- Header Section --- */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
+        .job, .education-entry {
             margin-bottom: 40px;
         }
 
-        .header-info {
-            flex-grow: 1;
+        .job-header {
+            margin-bottom: 10px;
         }
         
-        .contact-info p {
-            margin: 4px 0;
-            color: #495057;
-        }
-        
-        .profile-photo {
-            width: 130px;
-            height: 130px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #e9ecef;
-            margin-left: 40px;
+        .job-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #333;
         }
 
-        /* --- Lists --- */
-        ul {
-            list-style-type: none;
+        .company-date {
+            font-size: 1em;
+            color: #777;
+            display: block; /* 换行显示 */
+            margin-top: 5px;
+        }
+
+        .content ul {
+            list-style: none;
             padding-left: 0;
         }
 
-        li {
-            margin-bottom: 12px;
-            padding-left: 22px;
+        .content li {
             position: relative;
+            padding-left: 25px;
+            margin-bottom: 12px;
         }
 
-        li::before {
-            content: '●';
+        .content li::before {
+            content: '›'; /* 使用更优雅的符号 */
             position: absolute;
             left: 0;
-            color: #0056b3;
-            font-size: 0.8em;
-            top: 2px;
+            top: -2px;
+            font-size: 1.5em;
+            color: #007bff;
         }
 
-        /* --- Work & Education Section --- */
-        .job, .education-entry {
-            margin-bottom: 30px;
-        }
-
-        .job-header, .education-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 5px;
-        }
-
-        .job-title, .education-degree {
-            font-size: 1.1em;
-            font-weight: 600;
-            color: #343a40;
-        }
-        
-        .job-company {
-            font-size: 1.1em;
-            font-weight: 500;
-            color: #495057;
-        }
-
-        .date {
-            font-style: italic;
-            color: #6c757d;
-            flex-shrink: 0;
-            margin-left: 20px;
-        }
-        
-        .company-intro {
-            font-style: italic;
-            color: #6c757d;
-            padding-left: 15px;
-            border-left: 3px solid #e9ecef;
-            margin-top: 10px;
-        }
-
-        /* --- Responsive Design --- */
-        @media (max-width: 768px) {
-            .container {
-                padding: 25px;
-                margin: 0;
-                border-radius: 0;
+        /* --- 响应式设计：在手机屏幕上变为单栏布局 --- */
+        @media (max-width: 992px) {
+            .page-container {
+                flex-direction: column; /* 垂直堆叠 */
             }
 
-            .header {
-                flex-direction: column-reverse;
-                align-items: center;
+            .sidebar {
+                width: 100%;
+                max-width: none;
+                position: static; /* 取消固定定位 */
+                height: auto;
+                padding: 40px;
                 text-align: center;
+                justify-content: center;
             }
 
-            .profile-photo {
-                margin: 0 0 20px 0;
+            .sidebar-header h1 {
+                font-size: 3.5em;
             }
 
-            .job-header, .education-header {
-                flex-direction: column;
-                align-items: flex-start;
+            .main-nav {
+                margin-top: 30px;
             }
 
-            .date {
-                margin-left: 0;
-                margin-top: 5px;
+            .main-nav ul {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .main-nav li {
+                margin: 0 15px 10px;
+            }
+
+            .content {
+                padding: 40px;
+            }
+            .content h2 {
+                font-size: 2em;
             }
         }
+
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <header class="header">
-            <div class="header-info">
+    <div class="page-container">
+        <!-- 左侧固定边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
                 <h1>卿龙</h1>
-                <div class="contact-info">
-                    <p><strong>电话:</strong> 13428951200</p>
-                    <p><strong>邮箱:</strong> francis.qing@outlook.com</p>
-                    <p><strong>现居住地:</strong> 深圳</p>
-                    <p><strong>出生日期:</strong> 1982.08.10</p>
-                    <p><strong>教育背景:</strong> 工商管理硕士</p>
-                    <p><strong>目前状态:</strong> 在职</p>
-                </div>
+                <p>亚太区运营管理专家</p>
             </div>
-            <!-- 请将 "placeholder.jpg" 替换为您自己的照片文件名 -->
-            <img src="https://placehold.co/150x150/6c757d/ffffff?text=照片" alt="卿龙" class="profile-photo">
-        </header>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#self-evaluation">自我评价</a></li>
+                    <li><a href="#work-experience">工作经历</a></li>
+                    <li><a href="#education">教育背景</a></li>
+                    <li><a href="#skills">技能水平</a></li>
+                </ul>
+            </nav>
+        </aside>
 
-        <section id="self-evaluation">
-            <h2>自我评价</h2>
-            <ul>
-                <li><strong>工作经验:</strong> 美国质量协会认证黑带, 霍尼韦尔认证精益专家, 8年以上工厂精益管理体系推广经验, 完成及指导的30余个六西格玛黑带及绿带项目; 15年以上电子与医疗制造业工程设计, 设备及新产品导入管理经验。</li>
-                <li><strong>专业能力:</strong> 专业领域涉新产品导入, DFM, 工艺流程及产线布局设计, 相关设备及工装治具导入, 以及相关工程文件验收。在对生产物料的工艺和使用消耗评估时, 做出合理的BOM层级设计。具备专业的精益六西格玛知识和丰富的业务流程改善能力。</li>
-                <li><strong>人员管理:</strong> 15年员工管理经验, 擅于发掘员工特长、洞悉员工心中所想, 安排适宜的工作, 并辅之以培训与辅导, 提升员工的工作热情、能力以及业绩表现, 实现员工与公司的双赢。</li>
-                <li><strong>综合素质:</strong> 为人诚正、拥抱变革和新鲜事物; 精于用数据与逻辑分析问题与解决问题, 具备优秀的沟通、协调与推动能力; 成就动机及抗压能力超强。</li>
-            </ul>
-        </section>
+        <!-- 右侧滚动内容区 -->
+        <main class="content">
+            <section id="self-evaluation">
+                <h2>自我评价</h2>
+                <ul>
+                    <li><strong>工作经验:</strong> 美国质量协会认证黑带, 霍尼韦尔认证精益专家, 8年以上工厂精益管理体系推广经验, 完成及指导的30余个六西格玛黑带及绿带项目; 15年以上电子与医疗制造业工程设计, 设备及新产品导入管理经验。</li>
+                    <li><strong>专业能力:</strong> 专业领域涉新产品导入, DFM, 工艺流程及产线布局设计, 相关设备及工装治具导入, 以及相关工程文件验收。在对生产物料的工艺和使用消耗评估时, 做出合理的BOM层级设计。具备专业的精益六西格玛知识和丰富的业务流程改善能力。</li>
+                    <li><strong>人员管理:</strong> 15年员工管理经验, 擅于发掘员工特长、洞悉员工心中所想, 安排适宜的工作, 并辅之以培训与辅导, 提升员工的工作热情、能力以及业绩表现, 实现员工与公司的双赢。</li>
+                    <li><strong>综合素质:</strong> 为人诚正、拥抱变革和新鲜事物; 精于用数据与逻辑分析问题与解决问题, 具备优秀的沟通、协调与推动能力; 成就动机及抗压能力超强。</li>
+                </ul>
+            </section>
 
-        <section id="work-experience">
-            <h2>工作经历</h2>
-            
-            <div class="job">
-                <div class="job-header">
-                    <div>
-                        <span class="job-title">亚太区 COS 经理</span> | 
-                        <span class="job-company">卡莱医疗科技东莞有限公司</span>
+            <section id="work-experience">
+                <h2>工作经历</h2>
+                
+                <article class="job">
+                    <div class="job-header">
+                        <div class="job-title">亚太区 COS 经理</div>
+                        <span class="company-date">卡莱医疗科技东莞有限公司 | 2018.08 - 至今</span>
                     </div>
-                    <span class="date">2018.08 - 至今</span>
-                </div>
-                <p class="company-intro">卡莱医疗科技(东莞)有限公司是一家专注于医疗线材创新发展的科技型企业, 是全球最大的医疗线束生产商, 产品广泛应用于血氧、心电、除颤、超声、CT、核磁共振等医学检查和治疗仪器。</p>
-                <h4>工作职责:</h4>
-                <ul>
-                    <li>在卡莱互联集团的亚太地区两家工厂内推广和实施卡莱运营管理体系(COS), 搭建企业精益文化。</li>
-                    <li>领导工厂IE团队, 负责新产品导入, 产能提升, 降本以及工艺制程品质改善。</li>
-                    <li>配合供应链部门有效利用及调配工厂有效产能, 合理安排生产资源满足客户的日常出货计划。</li>
-                    <li>统筹工厂产能规划, layout及物流设计。结合日常改善, 监督及审核IE标准工时更新, 推动标准成本更新。</li>
-                    <li>在新产品立项时, 参与产品的可制造性评估, 给出合理的工时预估和产线的工艺布局设计。监督NPI到量产阶段的产能爬坡, 协调导入针对工艺设计的设备及工装夹具。</li>
-                    <li>与工厂领导团队合作,建立企业的的运营战略规划及年度改善重点项目。主要负责主导推动降低制造成本的改善项目实施及资源配置。</li>
-                    <li>领导和支持现场运营团队(制造,质量,工程,供应链管理),在所有相关领域推动持续的管理和商业流程改进。</li>
-                    <li>监督工厂运营的关键的指标KPIs(安全,品质,交付,成本),及时检查组织绩效,监督改进行动实施。</li>
-                    <li>作为亚太地区运营体系负责人, 与全球运营管理团队进行例行工作沟通和协调。</li>
-                </ul>
-                <h4>工作成绩:</h4>
-                <ul>
-                    <li>领导亚太区两家工厂推进卡莱运营管理系统框架并逐步推进, 在保证每年工厂运营指标(安全,品质,交付,成本)完成的前提下, 作为全球第三家工厂获得了卡莱总部颁发的优秀运营管理团队认证。</li>
-                    <li>专注于现场流程的改进, 优化生产资源, 设计多种类型生产线以适配各种客户的产能需求。过去三年中为公司减少了500名直接员工, 节省了近700万美元的成本支出。</li>
-                    <li>通过优化制程, 整合设备及模具资源, 将原来工厂内260台注塑机降低至190台。增加工厂内使用面积近600平方米, 年度减低电力能耗接近200万KW/H。</li>
-                    <li>领导亚太区工程与品质团队, 通过每年12个六西格玛绿带和2个黑带项目改善工艺流程和品质表现。过去三年中让外部客诉DPPM从15000降低到200。</li>
-                    <li>与供应链和客户团队合作, 合理运用数据分析工具降低客户的销售额变异波动, 利用合理的物料补给策略和S&IOP体系对来平衡工厂计划和外部销售团队的目标达成, 过去三年保证外部订单交付率在99%以上。</li>
-                    <li>与集团EHS团队合作, 推动卡莱的安全体系(PTZ)执行.通过每周例行的安全Gemba,教导员工遵守安全标准, 以身作则建立企业内部的安全文化。</li>
-                </ul>
-            </div>
+                    <ul>
+                        <li>在卡莱互联集团的亚太地区两家工厂内推广和实施卡莱运营管理体系(COS), 搭建企业精益文化。</li>
+                        <li>领导工厂IE团队, 负责新产品导入, 产能提升, 降本以及工艺制程品质改善。</li>
+                        <li>领导亚太区两家工厂推进卡莱运营管理系统框架并逐步推进, 在保证每年工厂运营指标(安全,品质,交付,成本)完成的前提下, 作为全球第三家工厂获得了卡莱总部颁发的优秀运营管理团队认证。</li>
+                        <li>专注于现场流程的改进, 优化生产资源, 设计多种类型生产线以适配各种客户的产能需求。过去三年中为公司减少了500名直接员工, 节省了近700万美元的成本支出。</li>
+                    </ul>
+                </article>
 
-            <div class="job">
-                <div class="job-header">
-                    <div>
-                        <span class="job-title">运营管理及工程经理</span> | 
-                        <span class="job-company">霍尼韦尔安防中国有限公司</span>
+                <article class="job">
+                    <div class="job-header">
+                        <div class="job-title">运营管理及工程经理</div>
+                        <span class="company-date">霍尼韦尔安防中国有限公司 | 2012.08 - 2018.08</span>
                     </div>
-                    <span class="date">2012.08 - 2018.08</span>
-                </div>
-                <p class="company-intro">霍尼韦尔安防集团(HoneywellSecurityGroup)隶属于霍尼韦尔国际公司自动化控制集团, 是世界最大及最富经验的电子保安系列产品制造商之一。</p>
-                <h4>HOS 运营/工艺经理 (2012.08-2018.08)</h4>
-                <ul>
-                    <li><strong>精益项目管理:</strong> 组织召开公司HOS执行委员会会议,与管理层一起利用SDP的工具并结合公司年度经营目标,完成年度HOS项目立项工作。组织“Baseline Review”工作坊,识别改善机会,确立项目目标、指标、行动及责任人。定期进行项目评审,把控项目方向、进度;并提供必要支持。</li>
-                    <li><strong>工业工程管理:</strong> 负责审核IE系统工时,每年组织IE团队针对生产制造瓶颈做出持续改善,提高生产效率,减少浪费。通过设计合理布局,减少物料周转搬运,同时协助供应链部门改善库存水平。</li>
-                    <li><strong>制造过程管理:</strong> 带领工艺团队不断完善工艺工作,以提升生产线的产能、效率、良率及可靠性。维护并更新现有产品的生产工艺、工时定额、SOP、BOM、工装夹具;及时解决生产过程中工艺问题管理日常制程数据分析,当不满足接受标准时,启动反应计划,以防止不合格产品流入下一工站,并使制造过程状态得到及时恢复。</li>
-                    <li><strong>新产品导入:</strong> 负责新产品导入的全过程,其中包括项目评估、车间布局设计、生产工艺设计、BOM及工时定额设置、设备评估、工装夹具设计等方面,直至成功移交量产。</li>
-                    <li><strong>生产设备管理:</strong> 负责既有产线生产设备的维修保养计划的制定与实施,负责推广TPM实施设备机动管理,通关开展小组的自主活动来生产维修。同时负责新设备安装调试以及设备的零部件采购与管理工作。</li>
-                </ul>
-                <h4>工作成绩:</h4>
-                <ul>
-                    <li>针对安防监控明星产品,建立原材料与成品看板,设计优化生产流程,实现客户下订单24小时内发货。覆盖100多个SKU,占公司销售额的30%。将深圳厂的按时交货率由91%提升到99%。将深圳厂的生产效率整体提升30%。</li>
-                    <li>与欧洲和北美研发团队建立有效沟通机制,设立Product Design Change Library,定期与各地区研发团队回顾及讨论项目进度,推进VE项目落实,2015全年VE项目节约成本达50万美元。</li>
-                    <li>在ACS集团对旗下工厂的SMT工艺制程(Blue Point)审核中得到87分,在整个ACS事业部全球17家工厂中名列第三。</li>
-                    <li>通过1年的努力,2013年深圳厂在集团HSE审核的成绩为81分(全国19家工厂中排名第2),较2012年的61分实现显著提高。</li>
-                    <li>2013年完成工厂风冷空调到冰水机组的整体改造,同时引入EBS楼宇控制系统进行监控,利用夜间波谷电价蓄冷,当年实现月空调电费降低48%,每年节省电能损耗150万KW/H。实施空压机热能回收项目,用于员工宿舍热水供应,年节约电费12万元。</li>
-                </ul>
-            </div>
-            
-            <div class="job">
-                <div class="job-header">
-                     <div>
-                        <span class="job-title">设施主管</span> | 
-                        <span class="job-company">莱尔德电子材料深圳有限公司</span>
+                    <ul>
+                        <li>统筹管理工艺部门的工作, 在全公司范围内推广 Honeywell 精益生产管理体系(HOS)。</li>
+                        <li>组织召开公司HOS执行委员会会议, 结合公司年度经营目标, 完成年度HOS项目立项工作, 并把控项目进度。</li>
+                        <li>带领工艺团队不断完善工艺工作, 提升生产线的产能、效率、良率及可靠性。</li>
+                        <li>针对安防监控明星产品, 建立看板, 优化生产流程, 实现客户下订单24小时内发货。将深圳厂的按时交货率由91%提升到99%, 生产效率整体提升30%。</li>
+                    </ul>
+                </article>
+
+                <article class="job">
+                    <div class="job-header">
+                        <div class="job-title">设施主管</div>
+                        <span class="company-date">莱尔德电子材料深圳有限公司 | 2008.08 - 2012.08</span>
                     </div>
-                    <span class="date">2008.08 - 2012.08</span>
-                </div>
-                <h4>生产设备管理:</h4>
-                <ul>
-                    <li>与生产部门沟通协调,制定并执行生产设备维修保养、大修、更新、改造计划,保障生产活动顺利推进。</li>
-                    <li>根据ISO质量体系要求,组织制订和实施各类设备的维护保养程序的文件。</li>
-                    <li>全公司范围内推动TPM活动的开展,制定设备使用程序、设备操作维护规程,建立设备使用责任制。</li>
-                    <li>依据各项目的要求,对现有设备的能力及布局进行评估,通过改造现有设备和引进新设备、改进生产工艺、完善工装夹具的设计与组织等方法来满足新产品导入及提升良率的要求。</li>
-                </ul>
-                <h4>设施管理:</h4>
-                <ul>
-                    <li>监督公共设施的运行情况,及日常检查、保养和维修工作的落实情况;协调解决设备维修中的重大问题,确保设备正常运转;同时负责全厂能耗管理(用水、用电、废物排放)。</li>
-                </ul>
-                <h4>工作业绩:</h4>
-                <ul>
-                    <li>如期完成多个车间的规划、水电路图纸设计、土建及装修工程监督、设备安装调试、车间改造的工作,有力地保障了新产品导入、生产线迁移等项目的顺利进行。</li>
-                    <li>通过对导电布电镀线的压力传感器改造,同时优化PLC程序,每月故障停机时间减少20%。</li>
-                </ul>
-            </div>
+                    <ul>
+                        <li>与生产部门协调, 制定并执行生产设备维修保养、大修、更新、改造计划, 保障生产活动顺利推进。</li>
+                        <li>全公司范围内推动TPM活动, 制定设备使用及操作维护规程, 建立设备使用责任制。</li>
+                        <li>如期完成多个车间的规划、水电路图纸设计、土建及装修工程监督、设备安装调试、车间改造的工作, 有力地保障了新产品导入、生产线迁移等项目的顺利进行。</li>
+                    </ul>
+                </article>
 
-            <div class="job">
-                <div class="job-header">
-                    <div>
-                        <span class="job-title">自动化工程师</span> | 
-                        <span class="job-company">富士康科技集团</span>
+                <article class="job">
+                    <div class="job-header">
+                        <div class="job-title">自动化工程师</div>
+                        <span class="company-date">富士康科技集团 | 2005.08 - 2008.08</span>
                     </div>
-                    <span class="date">2005.08 - 2008.08</span>
+                    <ul>
+                        <li>参与工厂自动化项目的调研、评估, 方案设计与评审; 设计品质防呆自动化工装夹具并跟进其制作监督。</li>
+                        <li>任职期间完成环形镀铜生产线等多个项目电气部分的设计、安装与调试, 在降低操作工人数的同时大幅提高产量与良率。</li>
+                    </ul>
+                </article>
+            </section>
+
+            <section id="education">
+                <h2>教育背景</h2>
+                <div class="education-entry">
+                    <div class="job-title">工商管理 (硕士)</div>
+                    <span class="company-date">大连理工大学 | 2017.09 - 2020.06</span>
                 </div>
-                <h4>工作职责:</h4>
-                 <ul>
-                    <li>参与工厂自动化项目的调研、评估,方案设计与评审;设计品质防呆自动化工装夹具并跟进其制作监督;监督、推进自动化项目进度。</li>
-                    <li>参与自动化项目组装、调试和生产试制过程中异常问题分析和解决,保证项目目标(节拍时间、制程良率、投资回报率、项目周期)达成。</li>
-                </ul>
-                <h4>工作成绩:</h4>
+                <div class="education-entry">
+                    <div class="job-title">工业自动化 (本科)</div>
+                    <span class="company-date">攀枝花学院 | 2001.09 - 2005.07</span>
+                </div>
+            </section>
+
+            <section id="skills">
+                <h2>技能水平</h2>
                 <ul>
-                    <li>任职期间完成环形镀铜生产线等多个项目电气部分的设计、安装与调试,在降低操作工人数的同时大幅提高产量与良率。</li>
+                    <li><strong>专业资质:</strong> 工业工程, 设施及精益生产专家, 六西格玛黑带。</li>
+                    <li><strong>语言水平:</strong> CET-4, 具备良好的英文听、说、读、写能力。</li>
+                    <li><strong>计算机水平:</strong> 熟练掌握 Minitab, Python, Power BI, Arena, Project, Visio, AutoCAD, AutoCAD Inventor, LabVIEW 等软件。</li>
                 </ul>
-            </div>
-
-        </section>
-
-        <section id="education">
-            <h2>教育背景</h2>
-            <div class="education-entry">
-                <div class="education-header">
-                    <div>
-                        <span class="education-degree">工商管理 (硕士)</span> | 
-                        <span class="job-company">大连理工大学</span>
-                    </div>
-                    <span class="date">2017.09 - 2020.06</span>
-                </div>
-            </div>
-            <div class="education-entry">
-                <div class="education-header">
-                    <div>
-                        <span class="education-degree">工业自动化 (本科)</span> | 
-                        <span class="job-company">攀枝花学院</span>
-                    </div>
-                    <span class="date">2001.09 - 2005.07</span>
-                </div>
-            </div>
-        </section>
-
-        <section id="skills">
-            <h2>技能水平</h2>
-            <ul>
-                <li><strong>专业资质:</strong> 工业工程, 设施及精益生产专家, 六西格玛黑带。</li>
-                <li><strong>语言水平:</strong> CET-4, 具备良好的英文听、说、读、写能力。</li>
-                <li><strong>计算机水平:</strong> 熟练掌握 Minitab, Python, Power BI, Arena, Project, Visio, AutoCAD, AutoCAD Inventor, LabVIEW 等软件。</li>
-            </ul>
-        </section>
-
+            </section>
+        </main>
     </div>
 
 </body>
