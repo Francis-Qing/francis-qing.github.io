@@ -35,12 +35,25 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between; /* 让姓名和导航上下分布 */
+            align-items: center; /* 让内部元素居中对齐 */
+            text-align: center; /* 文字居中 */
             position: sticky; /* 核心：实现滚动时固定 */
             top: 0;
             height: 100vh;
             box-sizing: border-box; /* 让 padding 不会撑大宽度 */
         }
         
+        /* --- 新增：个人照片样式 --- */
+        .profile-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%; /* 关键：设置成圆形 */
+            object-fit: cover; /* 保证图片不变形 */
+            margin-bottom: 30px; /* 和下方的名字拉开距离 */
+            border: 4px solid #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
         .sidebar-header h1 {
             font-size: 5em; /* 超大字号突出姓名 */
             font-weight: 600;
@@ -149,12 +162,16 @@
                 position: static; /* 取消固定定位 */
                 height: auto;
                 padding: 40px;
-                text-align: center;
                 justify-content: center;
             }
 
             .sidebar-header h1 {
                 font-size: 3.5em;
+            }
+            
+            .profile-photo {
+                width: 120px;
+                height: 120px;
             }
 
             .main-nav {
@@ -177,7 +194,6 @@
                 font-size: 2em;
             }
         }
-
     </style>
 </head>
 <body>
@@ -186,6 +202,14 @@
         <!-- 左侧固定边栏 -->
         <aside class="sidebar">
             <div class="sidebar-header">
+                <!-- 
+                  在这里加入您的照片！
+                  请将下面的 "src" 属性中的网址替换成您自己照片的真实地址。
+                  地址格式为: https://raw.githubusercontent.com/你的用户名/你的仓库名/main/你的照片文件名.jpg
+                  例如: https://raw.githubusercontent.com/francis-qing/francis-qing.github.io/main/profile.jpg
+                -->
+                <img src="https://raw.githubusercontent.com/francis-qing/francis-qing.github.io/main/profile.jpg" alt="卿龙的个人照片" class="profile-photo">
+                
                 <h1>卿龙</h1>
                 <p>亚太区运营管理专家</p>
             </div>
